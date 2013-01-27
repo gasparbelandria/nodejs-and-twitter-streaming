@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<title>NODEJS</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>	
+	<script>
+	$(document).on("ready", iniciar);
+	function iniciar(){
+		$("#palabra").focus();
+		$("#formulario").on("submit", enviarMensaje);		
+	}
+	function enviarMensaje(){
+		/**
+		* If use "localhost" the next line is: 
+		* var socket = io.connect('http://localhost'); 
+		*/		
+		var socket = io.connect('http://gasparbelandria.rs.af.cm');
+		socket.on('nombreDesdeServidor', recibirMensaje);
+		socket.emit("nuevaPalabra", $("#palabra").val() );
+		$("#palabra").val("");
+		$("#chat").html("please wait ...");
+	}
+	function recibirMensaje(datosServidor){
+		$("#chat").append().html("# " + datosServidor.text);
+	}
+	</script>
+</head>
+
+
+<body style="background-color:#272822; font-family:Verdana; color:#0f95c5;">
+	<form id="formulario" onSubmit="return false;">
+		<label>></label>
+		<input type="text" id="palabra" required style="background-color:#272822; border: solid 1px #272822; color:#0f95c5; padding:10px;" />	
+	</form>
+	<div id="chat">
+	</div>
+</body>
+</html>
