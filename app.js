@@ -26,16 +26,18 @@
 */	
 app.listen(process.env.VMC_APP_PORT || 1337, null);
 
+
+
 /**
 * API Stream Twitter
 * OAuth credentials
 * Put your Twitter Credentials: dev.twitter.com
 */
 var twit = new twitter({
-	consumer_key: '',
-	consumer_secret: '',
-	access_token_key: '',
-	access_token_secret: ''
+	consumer_key: 'you consumer key here',
+	consumer_secret: 'you consumer secret here',
+	access_token_key: 'you access token key here',
+	access_token_secret: 'yoy access token secret here'
 });
 
 /**
@@ -53,18 +55,18 @@ function handler (req, res){
 	});
 }
 
-io.sockets.on("connection", arranque);
-function arranque(usuario){
-	usuario.on("nuevaPalabra", emitir);
+io.sockets.on("connection", startSearch);
+function startSearch(usuario){
+	usuario.on("newWord", emitTwitter);
 }
 
-function emitir(searchTwitter){
+function emitTwitter(searchTwitter){
 	twit.stream('statuses/filter', {'track':searchTwitter}, function(stream) {
 		stream.on('data', function(data){
 			/**
 			* Emit Socket with Json Stream from Twitter
 			*/
-			io.sockets.emit("nombreDesdeServidor", data);
+			io.sockets.emit("serverName", data);
 		})
 	})
 }

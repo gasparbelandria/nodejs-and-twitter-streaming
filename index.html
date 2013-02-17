@@ -7,33 +7,33 @@
 	<script>
 	$(document).on("ready", iniciar);
 	function iniciar(){
-		$("#palabra").focus();
-		$("#formulario").on("submit", enviarMensaje);		
+		$("#inputSearch").focus();
+		$("#formTwitter").on("submit", sendMsg);		
 	}
-	function enviarMensaje(){
+	function sendMsg(){
 		/**
 		* If use "localhost" the next line is: 
 		* var socket = io.connect('http://localhost'); 
 		*/		
-		var socket = io.connect('http://gasparbelandria.rs.af.cm');
-		socket.on('nombreDesdeServidor', recibirMensaje);
-		socket.emit("nuevaPalabra", $("#palabra").val() );
-		$("#palabra").val("");
-		$("#chat").html("please wait ...");
+		var socket = io.connect('http://nodejstwitter.rs.af.cm');
+		socket.on('serverName', receiveMsg);
+		socket.emit("newWord", $("#inputSearch").val() );
+		$("#inputSearch").val("");
+		$("#content").html("please wait ...");
 	}
-	function recibirMensaje(datosServidor){
-		$("#chat").append().html("# " + datosServidor.text);
+	function receiveMsg(dataTwitter){
+		$("#content").append().html("# " + dataTwitter.text);
 	}
 	</script>
 </head>
 
 
 <body style="background-color:#272822; font-family:Verdana; color:#0f95c5;">
-	<form id="formulario" onSubmit="return false;">
+	<form id="formTwitter" onSubmit="return false;">
 		<label>></label>
-		<input type="text" id="palabra" required style="background-color:#272822; border: solid 1px #272822; color:#0f95c5; padding:10px;" />	
+		<input type="text" id="inputSearch" required style="background-color:#272822; border: solid 1px #272822; color:#0f95c5; padding:10px;" />	
 	</form>
-	<div id="chat">
+	<div id="content">
 	</div>
 </body>
 </html>
