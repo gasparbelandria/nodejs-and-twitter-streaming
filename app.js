@@ -66,7 +66,7 @@ function emitTwitter(searchTwitter){
 			/**
 			* Emit Socket with Json Stream from Twitter
 			*/
-			io.sockets.emit("serverName", data);
+			io.sockets.volatile.emit("serverName", data);
 		})
 	})
 }
